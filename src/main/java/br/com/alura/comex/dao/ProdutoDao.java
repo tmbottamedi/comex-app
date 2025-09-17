@@ -1,13 +1,17 @@
 package br.com.alura.comex.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.alura.comex.db.ConnectionFactory;
 import br.com.alura.comex.db.DatabaseUtils;
 import br.com.alura.comex.model.Categoria;
 import br.com.alura.comex.model.Produto;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProdutoDao {
 
@@ -94,7 +98,7 @@ public class ProdutoDao {
                 if (!resultSet.wasNull()) {
                     Categoria categoria = monta(categoriaId, resultSet);
 
-                    produto.adicionaCategoria(categoria);
+                    produto.setCategoria(categoria);
                 }
             }
 
@@ -119,13 +123,12 @@ public class ProdutoDao {
     private void insereCategoriasProduto(Produto produto) {
         String sql = "insert into categoria_produto (produto_id, categoria_id) values (?, ?)";
 
-        try (PreparedStatement comando = conexao.prepareStatement(sql)) {;
+        try (PreparedStatement comando = conexao.prepareStatement(sql)) {
 
-            for (Categoria categoria : produto.getCategorias()) {
-                comando.setLong(1, produto.getId());
-                comando.setLong(2, categoria.getId());
-                comando.execute();
-            }
+            Categoria categoria = produto.getCategoria();
+            comando.setLong(1, produto.getId());
+            comando.setLong(2, categoria.getId());
+            comando.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar categorias do produto.", e);
         }
@@ -154,7 +157,7 @@ public class ProdutoDao {
                 if (!resultSet.wasNull()) {
                     Categoria categoria = monta(categoriaId, resultSet);
 
-                    produto.adicionaCategoria(categoria);
+                    produto.setCategoria(categoria);
                 }
             }
 

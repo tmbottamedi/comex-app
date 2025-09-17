@@ -1,18 +1,37 @@
 package br.com.alura.comex.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "produto")
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column
     private String descricao;
 
+    @Column(nullable = false)
     private double preco;
-    private List<Categoria> categorias = new ArrayList<>();
 
+    @Column(name = "quantidade_em_estoque", nullable = false)
+    private int quantidadeEmEstoque;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     public Long getId() {
         return id;
@@ -46,19 +65,12 @@ public class Produto {
         this.preco = preco;
     }
 
-    public List<Categoria> getCategorias() {
-        return Collections.unmodifiableList(categorias);
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void adicionaCategoria(Categoria categoria) {
-        // verifica se a categoria já foi adicionada com base no id
-        for (Categoria categoriaDaLista : categorias) {
-            if (categoriaDaLista.getId().equals(categoria.getId())) {
-                return;
-            }
-        }
-
-        this.categorias.add(categoria);
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
@@ -68,7 +80,15 @@ public class Produto {
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
-                ", categorias=" + categorias +
+                ", categoria=" + categoria +
                 '}';
+    }
+
+    public int getQuantidadeEmEstoque() {
+        return quantidadeEmEstoque;
+    }
+
+    public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
+        this.quantidadeEmEstoque = quantidadeEmEstoque;
     }
 }
