@@ -1,16 +1,20 @@
 package br.com.alura.comex.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.alura.comex.db.ConnectionFactory;
 import br.com.alura.comex.db.DatabaseUtils;
 import br.com.alura.comex.model.Categoria;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CategoriaDao {
 
-    private Connection conexao;
+    private final Connection conexao;
 
     public CategoriaDao() {
         this.conexao = new ConnectionFactory().criaConexao();
@@ -46,7 +50,7 @@ public class CategoriaDao {
         String sql = "insert into categoria (nome) values (?)";
 
         try (PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            comando.setString(5, categoria.getNome());
+            comando.setString(1, categoria.getNome());
 
             comando.execute();
 
