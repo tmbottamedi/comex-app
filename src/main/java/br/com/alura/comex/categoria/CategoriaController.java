@@ -1,15 +1,16 @@
-package br.com.alura.comex.controller;
+package br.com.alura.comex.categoria;
+
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.alura.comex.model.Categoria;
-import br.com.alura.comex.service.CategoriaService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -34,5 +35,11 @@ public class CategoriaController {
         categoriaService.cadastrar(categoria);
 
         return new ResponseEntity<>(categoria, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Categoria>> lista() {
+        List<Categoria> categorias = categoriaService.listar();
+        return new ResponseEntity<>(categorias, HttpStatus.OK);
     }
 }

@@ -1,9 +1,8 @@
-package br.com.alura.comex.service;
+package br.com.alura.comex.categoria;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import br.com.alura.comex.model.Categoria;
-import br.com.alura.comex.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
@@ -18,5 +17,9 @@ public class CategoriaService {
         if (categoria == null)
             return;
         repository.save(categoria);
+    }
+
+    public List<Categoria> listar() {
+        return repository.findAll();
     }
 }

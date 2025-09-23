@@ -1,14 +1,12 @@
-package br.com.alura.comex.service;
+package br.com.alura.comex.produto;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.alura.comex.controller.RequestProduto;
-import br.com.alura.comex.model.Categoria;
-import br.com.alura.comex.model.Produto;
-import br.com.alura.comex.repository.CategoriaRepository;
-import br.com.alura.comex.repository.ProdutoRepository;
+import br.com.alura.comex.categoria.Categoria;
+import br.com.alura.comex.categoria.CategoriaRepository;
 
 @Service
 public class ProdutoService {
@@ -29,5 +27,9 @@ public class ProdutoService {
         Categoria categoria = categoriaOptional.get();
         Produto produto = request.toProduto(categoria);
         return produtoRepository.save(produto);
+    }
+
+    public List<Produto> listar() {
+        return produtoRepository.findAll();
     }
 }

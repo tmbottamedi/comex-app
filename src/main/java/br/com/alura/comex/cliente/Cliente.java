@@ -1,4 +1,8 @@
-package br.com.alura.comex.model;
+package br.com.alura.comex.cliente;
+
+import br.com.alura.comex.usuario.Usuario;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 public class Cliente {
 
@@ -13,6 +17,25 @@ public class Cliente {
     private String cidade;
     private String estado;
     private String cep;
+    @OneToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private Usuario usuario;
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", cpf='" + cpf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", cep='" + cep + '\'' +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -94,19 +117,11 @@ public class Cliente {
         this.cep = cep;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "id=" + id +
-                ", cpf='" + cpf + '\'' +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", logradouro='" + logradouro + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", estado='" + estado + '\'' +
-                ", cep='" + cep + '\'' +
-                '}';
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
